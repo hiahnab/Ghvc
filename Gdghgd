@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بابل للتوريد الغذائي · Babylon Food Supply</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
+  :root {
+    --b-blue-deep: #0A1628;
+    --b-blue-mid: #1B3A5C;
+    --b-blue-light: #4A7FB5;
+    --b-gold: #C9A84C;
+    --b-gold-light: #E8D5A3;
+    --b-gold-dark: #8B6914;
+    --b-cream: #F5F0E6;
+    --b-cream-dark: #D4CFC4;
+    --b-black: #0D0D0D;
+    --b-red: #8B2635;
+    --b-green: #2D5A3D;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(180deg, var(--b-blue-deep) 0%, var(--b-black) 100%);
+    color: var(--b-cream);
+    min-height: 100vh;
+    direction: rtl;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .header { text-align: center; padding: 24px 16px 8px; position: relative; }
+  .header .cuneiform { font-size: 11px; color: var(--b-gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
+  .header h1 { font-size: 26px; font-weight: 600; color: var(--b-gold-light); letter-spacing: 1px; }
+  .header .subtitle { font-size: 13px; color: var(--b-cream-dark); margin-top: 4px; }
+  .header .deco { font-size: 10px; color: var(--b-gold-dark); opacity: 0.3; letter-spacing: 2px; text-align: center; margin: 8px 0; }
+  .tabs { display: flex; gap: 4px; background: linear-gradient(90deg, var(--b-blue-mid) 0%, var(--b-blue-deep) 100%); padding: 4px 8px 0; border-radius: 16px 16px 0 0; border-bottom: 1px solid var(--b-gold-dark); overflow-x: auto; }
+  .tab { padding: 12px 16px; cursor: pointer; border-radius: 12px 12px 0 0; font-size: 13px; font-weight: 500; color: var(--b-cream-dark); white-space: nowrap; transition: all 0.3s ease; border-bottom: 2px solid transparent; position: relative; background: transparent; border: none; font-family: inherit; }
+  .tab::before { content: ''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--b-gold), transparent); opacity: 0; transition: opacity 0.3s; }
+  .tab:hover::before { opacity: 0.5; }
+  .tab.active { color: var(--b-gold); border-bottom-color: var(--b-gold); background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, transparent 100%); }
+  .tab.active::before { opacity: 1; }
+  .panel { display: none; padding: 20px 16px; animation: fadeIn 0.4s ease-out; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+  .card { border: 1px solid rgba(201,168,76,0.15); border-radius: 14px; padding: 18px; margin-bottom: 14px; background: linear-gradient(135deg, rgba(27,58,92,0.4) 0%, rgba(10,22,40,0.6) 100%); position: relative; overflow: hidden; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--b-gold-dark), transparent); }
+  .card::after { content: ''; position: absolute; bottom: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%); border-radius: 50%; }
+  .section-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; color: var(--b-gold-light); letter-spacing: 0.5px; }
+  .tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; margin-left: 6px; border: 1px solid; }
+  .tag-gold { background: rgba(201,168,76,0.12); color: var(--b-gold); border-color: rgba(201,168,76,0.3); }
+  .tag-red { background: rgba(139,38,53,0.15); color: #E57373; border-color: rgba(139,38,53,0.3); }
+  .tag-green { background: rgba(45,90,61,0.15); color: #81C784; border-color: rgba(45,90,61,0.3); }
+  .tag-blue { background: rgba(74,127,181,0.15); color: var(--b-blue-light); border-color: rgba(74,127,181,0.3); }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.data-table th, table.data-table td { padding: 12px 10px; text-align: right; border-bottom: 1px solid rgba(201,168,76,0.08); }
+  table.data-table th { color: var(--b-gold); font-weight: 600; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
+  table.data-table tr:hover td { background: rgba(201,168,76,0.03); }
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .metric { text-align: center; padding: 18px 10px; border-radius: 12px; background: linear-gradient(135deg, rgba(27,58,92,0.3) 0%, rgba(10,22,40,0.5) 100%); border: 1px solid rgba(201,168,76,0.1); position: relative; }
+  .metric::after { content: '◆'; position: absolute; top: 8px; right: 10px; font-size: 8px; color: var(--b-gold-dark); opacity: 0.5; }
+  .metric-value { font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; color: var(--b-gold-light); }
+  .metric-label { font-size: 11px; color: var(--b-cream-dark); margin-top: 6px; letter-spacing: 0.3px; }
+  .btn { padding: 10px 20px; border-radius: 10px; border: 1px solid rgba(201,168,76,0.3); background: linear-gradient(135deg, rgba(27,58,92,0.5) 0%, rgba(10,22,40,0.7) 100%); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--b-cream); transition: all 0.3s ease; position: relative; overflow: hidden; font-family: inherit; }
+  .btn:hover { border-color: var(--b-gold); box-shadow: 0 0 20px rgba(201,168,76,0.1); }
+  .btn-primary { background: linear-gradient(135deg, var(--b-gold-dark) 0%, var(--b-gold) 100%); color: var(--b-black); border: none; font-weight: 600; }
+  .btn-primary:hover { box-shadow: 0 4px 20px rgba(201,168,76,0.3); }
+  .input { padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(201,168,76,0.15); background: rgba(10,22,40,0.5); color: var(--b-cream); font-size: 13px; width: 100%; box-sizing: border-box; transition: all 0.3s; font-family: inherit; }
+  .input:focus { outline: none; border-color: var(--b-gold); box-shadow: 0 0 0 2px rgba(201,168,76,0.1); }
+  .input::placeholder { color: var(--b-cream-dark); opacity: 0.5; }
+  .form-row { display: flex; gap: 12px; margin-bottom: 12px; }
+  .form-row .input { flex: 1; }
+  .progress-bar { height: 6px; border-radius: 3px; background: rgba(201,168,76,0.08); overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+  .score-ring { width: 56px; height: 56px; border-radius: 50%; border: 3px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; position: relative; flex-shrink: 0; }
+  .score-ring::before { content: ''; position: absolute; inset: -3px; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--b-gold); transform: rotate(45deg); }
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--b-gold-dark), transparent); margin: 16px 0; opacity: 0.3; }
+  .babylon-icon { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--b-gold-dark) 0%, var(--b-gold) 100%); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--b-black); flex-shrink: 0; }
+  .inspection-step { display: flex; gap: 14px; padding: 14px; border-radius: 12px; background: rgba(27,58,92,0.2); border: 1px solid rgba(201,168,76,0.08); margin-bottom: 10px; align-items: flex-start; }
+  .inspection-num { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--b-gold-dark), var(--b-gold)); color: var(--b-black); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .star-rating { display: flex; gap: 2px; }
+  .star { color: var(--b-gold); font-size: 14px; }
+  .star.empty { color: rgba(201,168,76,0.2); }
+  .login-toggle { display: flex; gap: 8px; margin-bottom: 16px; padding: 4px; background: rgba(10,22,40,0.5); border-radius: 12px; border: 1px solid rgba(201,168,76,0.1); }
+  .login-toggle .btn { flex: 1; text-align: center; border: none; background: transparent; }
+  .login-toggle .btn.active { background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(201,168,76,0.05) 100%); color: var(--b-gold); border: 1px solid rgba(201,168,76,0.2); }
+  .login-form { display: none; }
+  .login-form.active { display: block; }
+  .cert-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; background: rgba(45,90,61,0.15); border: 1px solid rgba(45,90,61,0.3); font-size: 12px; color: #81C784; }
+  .cert-badge.pending { background: rgba(139,38,53,0.15); border-color: rgba(139,38,53,0.3); color: #E57373; }
+  .timeline-v { position: relative; padding-right: 28px; border-right: 1px solid rgba(201,168,76,0.15); }
+  .timeline-v-item { position: relative; margin-bottom: 18px; padding-right: 16px; }
+  .timeline-v-item::before { content: ''; position: absolute; right: -33px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--b-blue-mid); border: 2px solid var(--b-gold); }
+  .timeline-v-item.done::before { background: var(--b-gold); }
+  .highlight-box { padding: 14px; border-radius: 12px; background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(74,127,181,0.06) 100%); border: 1px solid rgba(201,168,76,0.1); }
+  .supplier-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; background: rgba(27,58,92,0.15); border: 1px solid rgba(201,168,76,0.06); margin-bottom: 8px; transition: all 0.3s; }
+  .supplier-row:hover { border-color: rgba(201,168,76,0.2); background: rgba(27,58,92,0.25); }
+  .alert-box { padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .alert-red { background: rgba(139,38,53,0.1); border: 1px solid rgba(139,38,53,0.2); }
+  .alert-gold { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.15); }
+  .alert-blue { background: rgba(74,127,181,0.06); border: 1px solid rgba(74,127,181,0.15); }
+  @media (max-width: 640px) { .form-row { flex-direction: column; } .metric-grid { grid-template-columns: repeat(2, 1fr); } .tabs { font-size: 11px; } .tab { padding: 10px 12px; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+  <div class="cuneiform">𒀭 𒁹 𒂗 𒃶</div>
+  <h1>بابل للتوريد الغذائي</h1>
+  <div class="subtitle">Babylon Food Supply · B2B Distribution Platform</div>
+  <div class="deco">𒈦 𒄘 𒃻 𒀭 𒁹 𒂗 𒃶 𒈨 𒊏 𒄑</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showPanel(0)">🏛️ الجودة</button>
+  <button class="tab" onclick="showPanel(1)">📋 Scorecard</button>
+  <button class="tab" onclick="showPanel(2)">🔍 الفحص</button>
+  <button class="tab" onclick="showPanel(3)">🍽️ تسجيل مستهلك</button>
+  <button class="tab" onclick="showPanel(4)">🚜 تسجيل مورد</button>
+  <button class="tab" onclick="showPanel(5)">📊 لوحة الجودة</button>
+</div>
+
+<div class="panel active" id="panel0">
+  <div class="section-title"><div class="babylon-icon">𒀭</div>نظام الجودة البابلية</div>
+  <div class="metric-grid">
+    <div class="metric"><div class="metric-value" style="color: var(--b-gold);">HACCP</div><div class="metric-label">معيار السلامة<br>الغذائية</div></div>
+    <div class="metric"><div class="metric-value" style="color: var(--b-blue-light);">ISO 22000</div><div class="metric-label">نظام إدارة<br>السلامة الغذائية</div></div>
+    <div class="metric"><div class="metric-value" style="color: #81C784;">GMP</div><div class="metric-label">الممارسات<br>الصحيحة</div></div>
+    <div class="metric"><div class="metric-value" style="color: #E57373;">5 نقاط</div><div class="metric-label">نقاط فحص<br>CCP</div></div>
+  </div>
+  <div class="card">
+    <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 12px;">🛡️ كيف تحل المنصة مشكلة الجودة؟</div>
+    <div style="font-size: 13px; color: var(--b-cream-dark); line-height: 1.8;">
+      <b style="color: var(--b-gold);">المشكلة:</b> الموردون والمزارعون في العراق لا يتبعون معايير جودة موحدة. البضاعة تصل متفاوتة، فاسدة أحياناً، بدون شهادات صحية.<br><br>
+      <b style="color: var(--b-gold);">الحل = 5 طبقات حماية:</b>
+    </div>
+    <div class="divider"></div>
+    <div class="inspection-step">
+      <div class="inspection-num">1</div>
+      <div>
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">التسجيل المشروط</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">لا يمكن للمورد البيع قبل اجتياز "فحص القبول". زيارة ميدانية + فحص عينة + مراجعة شهادات. <span class="tag tag-red">إلزامي</span></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">2</div>
+      <div>
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">نظام النقاط (Scorecard)</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">كل مورد يحصل على تقييم 0-100 بناءً على: الجودة (40%) + التسليم في الوقت (30%) + الاستجابة (20%) + الشهادات (10%). <span class="tag tag-gold">محدث يومياً</span></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">3</div>
+      <div>
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">فحص عند الاستلام (Receiving QC)</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">2 فاحصون متخصصون يفحصون كل شحنة: لون، رائحة، قوام، درجة حرارة، تاريخ الصلاحية، تغليف. <span class="tag tag-blue">CCP 1</span></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">4</div>
+      <div>
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">تتبع كامل (Traceability)</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">كل صندوق له باركود يتتبع: المورد → تاريخ الحصاد → تاريخ الاستلام → درجة الحرارة → العميل. <span class="tag tag-green">100% تتبع</span></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">5</div>
+      <div>
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">ردود فعل العملاء (Customer Feedback Loop)</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">العميل يقيم الجودة بعد كل طلب. تقييم &lt; 3 نجوم = تحقيق فوري + خصم + إنذار للمورد. 3 إنذارات = إيقاف. <span class="tag tag-red">صفر تسامح</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 12px;">📋 شهادات المطلوبة من كل مورد</div>
+    <table class="data-table">
+      <tr><th>الشهادة</th><th>الأهمية</th><th>مدة الصلاحية</th><th>الحالة</th></tr>
+      <tr><td>🩺 شهادة صحية (Health Certificate)</td><td><span class="tag tag-red">إلزامي</span></td><td>سنة</td><td><span class="cert-badge">✓ مطلوب</span></td></tr>
+      <tr><td>📜 سجل تجاري + ترخيص غذائي</td><td><span class="tag tag-red">إلزامي</span></td><td>سنة</td><td><span class="cert-badge">✓ مطلوب</span></td></tr>
+      <tr><td>🌡️ HACCP Plan</td><td><span class="tag tag-gold">مستحسن</span></td><td>سنتان</td><td><span class="cert-badge pending">⏳ مستحسن</span></td></tr>
+      <tr><td>🏭 GMP Certificate</td><td><span class="tag tag-gold">مستحسن</span></td><td>سنتان</td><td><span class="cert-badge pending">⏳ مستحسن</span></td></tr>
+      <tr><td>🔬 فحص مخبري (Microbiological)</td><td><span class="tag tag-blue">كل 6 أشهر</span></td><td>6 أشهر</td><td><span class="cert-badge">✓ مطلوب</span></td></tr>
+      <tr><td>💧 فحص مياه الري (للمزارع)</td><td><span class="tag tag-blue">سنوي</span></td><td>سنة</td><td><span class="cert-badge">✓ مطلوب</span></td></tr>
+      <tr><td>🧪 فحص بقايا مبيدات (Pesticide Residue)</td><td><span class="tag tag-blue">كل 3 أشهر</span></td><td>3 أشهر</td><td><span class="cert-badge">✓ مطلوب</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="panel" id="panel1">
+  <div class="section-title"><div class="babylon-icon">𒁹</div>Scorecard الموردين</div>
+  <div class="card">
+    <div style="font-size: 13px; color: var(--b-cream-dark); margin-bottom: 12px;">🏆 الترتيب الشهري للموردين · أغسطس 2026</div>
+    <div class="supplier-row">
+      <div class="score-ring" style="border-color: rgba(129,199,132,0.3);"><span style="color: #81C784;">94</span></div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light);">🥇 مزارع بابل للخضروات</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">بابل · 127 توريد · آخر فحص: 24/8</div>
+        <div class="star-rating" style="margin-top: 4px;"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      <div style="text-align: left;"><div style="font-size: 12px; color: var(--b-cream-dark);">جودة: 96%</div><div style="font-size: 12px; color: var(--b-cream-dark);">تسليم: 92%</div><div style="font-size: 12px; color: var(--b-cream-dark);">استجابة: 95%</div></div>
+      <span class="tag tag-green">VIP</span>
+    </div>
+    <div class="supplier-row">
+      <div class="score-ring" style="border-color: rgba(201,168,76,0.3);"><span style="color: var(--b-gold);">87</span></div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light);">🥈 مزارع الأنبار - الخالدية</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">الأنبار · 89 توريد · آخر فحص: 23/8</div>
+        <div class="star-rating" style="margin-top: 4px;"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></div>
+      </div>
+      <div style="text-align: left;"><div style="font-size: 12px; color: var(--b-cream-dark);">جودة: 88%</div><div style="font-size: 12px; color: var(--b-cream-dark);">تسليم: 85%</div><div style="font-size: 12px; color: var(--b-cream-dark);">استجابة: 90%</div></div>
+      <span class="tag tag-gold">موثوق</span>
+    </div>
+    <div class="supplier-row">
+      <div class="score-ring" style="border-color: rgba(74,127,181,0.3);"><span style="color: var(--b-blue-light);">78</span></div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light);">🥉 تاجر جاميلة - أبو علي</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">بغداد · 45 توريد · آخر فحص: 22/8</div>
+        <div class="star-rating" style="margin-top: 4px;"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span><span class="star empty">★</span></div>
+      </div>
+      <div style="text-align: left;"><div style="font-size: 12px; color: var(--b-cream-dark);">جودة: 75%</div><div style="font-size: 12px; color: var(--b-cream-dark);">تسليم: 82%</div><div style="font-size: 12px; color: var(--b-cream-dark);">استجابة: 78%</div></div>
+      <span class="tag tag-blue">عادي</span>
+    </div>
+    <div class="supplier-row" style="opacity: 0.6;">
+      <div class="score-ring" style="border-color: rgba(139,38,53,0.3);"><span style="color: #E57373;">52</span></div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light);">⚠️ مزارع كوت - غير معتمد</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">واسط · 12 توريد · آخر فحص: 15/8</div>
+        <div class="star-rating" style="margin-top: 4px;"><span class="star">★</span><span class="star">★</span><span class="star empty">★</span><span class="star empty">★</span><span class="star empty">★</span></div>
+      </div>
+      <div style="text-align: left;"><div style="font-size: 12px; color: var(--b-cream-dark);">جودة: 48%</div><div style="font-size: 12px; color: var(--b-cream-dark);">تسليم: 55%</div><div style="font-size: 12px; color: var(--b-cream-dark);">استجابة: 60%</div></div>
+      <span class="tag tag-red">⚠️ إنذار</span>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 12px;">📊 معايير Scorecard (الوزن)</div>
+    <table class="data-table">
+      <tr><th>المعيار</th><th>الوزن</th><th>كيف يُحسب؟</th></tr>
+      <tr><td>🥬 جودة المنتج</td><td><span class="tag tag-red">40%</span></td><td>نسبة الطلبات بدون شكوى / إجمالي الطلبات</td></tr>
+      <tr><td>🚚 التسليم في الوقت (OTIF)</td><td><span class="tag tag-gold">30%</span></td><td>On-Time In-Full: التسليم في الوقت + الكمية الكاملة</td></tr>
+      <tr><td>📞 الاستجابة والتواصل</td><td><span class="tag tag-blue">20%</span></td><td>سرعة الرد على الطلبات + حل المشاكل</td></tr>
+      <tr><td>📋 الشهادات والامتثال</td><td><span class="tag tag-green">10%</span></td><td>توفر الشهادات + فحوصات المختبر</td></tr>
+    </table>
+    <div class="divider"></div>
+    <div style="font-size: 13px; color: var(--b-cream-dark); line-height: 1.7;">
+      <b style="color: var(--b-gold);">الدرجات:</b><br>
+      • <span style="color: #81C784;">90-100</span> = VIP (أولوية في الطلبات + آجل 45 يوم)<br>
+      • <span style="color: var(--b-gold);">75-89</span> = موثوق (آجل 30 يوم)<br>
+      • <span style="color: var(--b-blue-light);">60-74</span> = عادي (كاش أو 15% مقدم)<br>
+      • <span style="color: #E57373;">&lt; 60</span> = تحت المراقبة (3 إنذارات = إيقاف)<br>
+      • <span style="color: #E57373;">&lt; 50</span> = إيقاف فوري
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel2">
+  <div class="section-title"><div class="babylon-icon">𒂗</div>فحص الاستلام (Receiving QC)</div>
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <div>
+        <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light);">📦 شحنة #B-2024-0825-001</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">مورد: مزارع بابل · المنتج: بطاطا · الكمية: 500 كجم · وقت الوصول: 11:15 PM</div>
+      </div>
+      <span class="tag tag-gold">⏳ قيد الفحص</span>
+    </div>
+    <div class="divider"></div>
+    <div style="font-size: 14px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 10px;">🔬 5 نقاط فحص CCP</div>
+    <div class="inspection-step">
+      <div class="inspection-num">1</div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">🌡️ درجة الحرارة (CCP-1)</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">المطلوب: 4-8°م | المقاس: 6°م | <span style="color: #81C784;">✓ مقبول</span></div>
+        <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--b-gold-dark), var(--b-gold));"></div></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">2</div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">👁️ الفحص البصري</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">اللون: أصفر فاتح ✓ | القوام: صلب ✓ | الروائح: طبيعية ✓ | <span style="color: #81C784;">✓ مقبول</span></div>
+        <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 92%; background: linear-gradient(90deg, var(--b-gold-dark), var(--b-gold));"></div></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">3</div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">⚖️ الوزن والكمية</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">الطلب: 500 كجم | الواصل: 498 كجم | الفرق: -0.4% | <span style="color: #81C784;">✓ مقبول</span></div>
+        <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 98%; background: linear-gradient(90deg, var(--b-gold-dark), var(--b-gold));"></div></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">4</div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">📦 التغليف والنقل</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">صناديق نظيفة ✓ | لا تلف ✓ | باركود واضح ✓ | <span style="color: #81C784;">✓ مقبول</span></div>
+        <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--b-gold-dark), var(--b-gold));"></div></div>
+      </div>
+    </div>
+    <div class="inspection-step">
+      <div class="inspection-num">5</div>
+      <div style="flex: 1;">
+        <div style="font-weight: 600; color: var(--b-gold-light); margin-bottom: 4px;">📋 الوثائق</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">شهادة صحية ✓ | فاتورة ✓ | شهادة فحص مبيدات ✓ | <span style="color: #81C784;">✓ مقبول</span></div>
+        <div class="progress-bar" style="margin-top: 6px;"><div class="progress-fill" style="width: 100%; background: linear-gradient(90deg, var(--b-gold-dark), var(--b-gold));"></div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <button class="btn btn-primary" style="flex: 1; min-width: 140px;">✓ قبول الشحنة</button>
+      <button class="btn" style="flex: 1; min-width: 140px; border-color: rgba(139,38,53,0.4); color: #E57373;">✗ رفض - إرجاع</button>
+      <button class="btn" style="flex: 1; min-width: 140px;">⚠️ قبض جزئي</button>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 10px;">📸 AI Visual Inspection (قريباً)</div>
+    <div style="font-size: 13px; color: var(--b-cream-dark); line-height: 1.7;">
+      • الكاميرا تلتقط صورة للبضاعة عند الاستلام<br>
+      • AI يقارنها بـ "القالب الذهبي" (Golden Template) للمنتج المثالي<br>
+      • يكتشف: البقع السوداء، التجعد، اللون غير الطبيعي، التلف<br>
+      • الدقة: 95% | السرعة: 3 ثواني/صورة<br>
+      • <span style="color: var(--b-gold);">التكلفة: $5,000 لكاميرا + $200/شهر SaaS</span>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel3">
+  <div class="section-title"><div class="babylon-icon">𒃶</div>تسجيل مستهلك فاخر</div>
+  <div class="card">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <div style="font-size: 32px; margin-bottom: 8px;">𒈦</div>
+      <div style="font-size: 18px; font-weight: 600; color: var(--b-gold-light);">انضم لشبكة بابل الغذائية</div>
+      <div style="font-size: 12px; color: var(--b-cream-dark);">مطاعم · فنادق · مصانع · سوبرماركت</div>
+    </div>
+    <div class="divider"></div>
+    <div class="form-row">
+      <input class="input" placeholder="اسم المنشأة" value="فندق بابل الدولي">
+      <input class="input" placeholder="نوع النشاط" value="فندق 5 نجوم">
+    </div>
+    <div class="form-row">
+      <input class="input" placeholder="المنطقة" value="المنصور">
+      <input class="input" placeholder="العنوان التفصيلي" value="شارع 14 رمضان، قرب ساحة الفردوس">
+    </div>
+    <div class="form-row">
+      <input class="input" placeholder="اسم المسؤول" value="سامر الخفاجي">
+      <input class="input" placeholder="المنصب" value="مدير المشتريات">
+    </div>
+    <div class="form-row">
+      <input class="input" placeholder="رقم الهاتف" value="0771 888 9999">
+      <input class="input" placeholder="البريد الإلكتروني" value="procurement@babylon-hotel.iq">
+    </div>
+    <div class="form-row">
+      <input class="input" placeholder="السجل التجاري" value="CR-2024-88991">
+      <input class="input" placeholder="رقم الضريبي" value="TIN-123456789">
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 12px; color: var(--b-gold); margin-bottom: 6px; display: block;">⏰ نوافذ التوصيل المفضلة</label>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <span class="tag tag-gold">5:00 - 6:00 AM</span>
+        <span class="tag tag-blue">6:00 - 7:00 AM</span>
+        <span class="tag tag-blue">7:00 - 8:00 AM</span>
+        <span class="tag tag-blue">8:00 - 9:00 AM</span>
+      </div>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 12px; color: var(--b-gold); margin-bottom: 6px; display: block;">📦 الفئات المطلوبة</label>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <span class="tag tag-green">✓ خضروات طازجة</span>
+        <span class="tag tag-green">✓ فواكه</span>
+        <span class="tag tag-green">✓ لحوم ودواجن</span>
+        <span class="tag tag-blue">ألبان</span>
+        <span class="tag tag-blue">بقوليات</span>
+        <span class="tag tag-blue">مستوردات</span>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-bottom: 14px;">
+      <div style="font-size: 13px; color: var(--b-cream-dark); line-height: 1.7;">
+        <b style="color: var(--b-gold);">💎 مميزات العضوية:</b><br>
+        • توصيل يومي 6 صباحاً · جودة مضمونة · استبدال فوري<br>
+        • فواتير ضريبية شهرية · آجل منظم حتى 45 يوم<br>
+        • مدير حساب مخصص · تقارير شهرية · دعم 24/7
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width: 100%; padding: 14px;">𒁹 تسجيل المنشأة · البدء فوراً</button>
+  </div>
+</div>
+
+<div class="panel" id="panel4">
+  <div class="section-title"><div class="babylon-icon">𒀭</div>تسجيل مورد معتمد</div>
+  <div class="card">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <div style="font-size: 32px; margin-bottom: 8px;">𒂗</div>
+      <div style="font-size: 18px; font-weight: 600; color: var(--b-gold-light);">كن شريكاً في إمبراطورية التوريد</div>
+      <div style="font-size: 12px; color: var(--b-cream-dark);">مزارعون · مستوردون · مصنّعون</div>
+    </div>
+    <div class="divider"></div>
+    <div class="timeline-v">
+      <div class="timeline-v-item done">
+        <div style="font-size: 12px; color: var(--b-gold); margin-bottom: 2px;">الخطوة 1</div>
+        <div style="font-weight: 600; color: var(--b-gold-light);">التسجيل الأولي</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">ملء البيانات + رفع الوثائق</div>
+      </div>
+      <div class="timeline-v-item">
+        <div style="font-size: 12px; color: var(--b-gold); margin-bottom: 2px;">الخطوة 2</div>
+        <div style="font-weight: 600; color: var(--b-gold-light);">الفحص الميداني</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">زيارة فريق الجودة للمزرعة/المستودع</div>
+      </div>
+      <div class="timeline-v-item">
+        <div style="font-size: 12px; color: var(--b-gold); margin-bottom: 2px;">الخطوة 3</div>
+        <div style="font-weight: 600; color: var(--b-gold-light);">فحص العينات</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">فحص مخبري + فحص بصري + تقييم HACCP</div>
+      </div>
+      <div class="timeline-v-item">
+        <div style="font-size: 12px; color: var(--b-gold); margin-bottom: 2px;">الخطوة 4</div>
+        <div style="font-weight: 600; color: var(--b-gold-light);">التوريد التجريبي</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">5 توريدات تجريبية + تقييم العملاء</div>
+      </div>
+      <div class="timeline-v-item">
+        <div style="font-size: 12px; color: var(--b-gold); margin-bottom: 2px;">الخطوة 5</div>
+        <div style="font-weight: 600; color: var(--b-gold-light);">الاعتماد النهائي</div>
+        <div style="font-size: 12px; color: var(--b-cream-dark);">شهادة "مورد معتمد بابل" + Scorecard 0-100</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="form-row">
+      <input class="input" placeholder="اسم الشركة/المزرعة" value="مزارع النخيل - بابل">
+      <input class="input" placeholder="نوع النشاط" value="مزرعة خضروات">
+    </div>
+    <div class="form-row">
+      <input class="input" placeholder="الموقع/المحافظة" value="بابل - الحلة">
+      <input class="input" placeholder="المساحة (دونم)" value="150 دونم">
+    </div>
+    <div class="form-row">
+      <input class="input" placeholder="اسم المسؤول" value="حسين العبيدي">
+      <input class="input" placeholder="رقم الهاتف" value="0772 555 4444">
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 12px; color: var(--b-gold); margin-bottom: 6px; display: block;">🌾 المنتجات المتوفرة</label>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <span class="tag tag-green">✓ بطاطا</span>
+        <span class="tag tag-green">✓ طماطم</span>
+        <span class="tag tag-green">✓ بصل</span>
+        <span class="tag tag-blue">خيار</span>
+        <span class="tag tag-blue">باذنجان</span>
+        <span class="tag tag-blue">فلفل</span>
+      </div>
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="font-size: 12px; color: var(--b-gold); margin-bottom: 6px; display: block;">📎 الوثائق المطلوبة</label>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="padding: 10px; border-radius: 8px; background: rgba(45,90,61,0.1); border: 1px solid rgba(45,90,61,0.2); display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 12px; color: #81C784;">✓ شهادة صحية</span>
+          <span style="font-size: 11px; color: var(--b-cream-dark);">تم الرفع</span>
+        </div>
+        <div style="padding: 10px; border-radius: 8px; background: rgba(45,90,61,0.1); border: 1px solid rgba(45,90,61,0.2); display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 12px; color: #81C784;">✓ السجل التجاري</span>
+          <span style="font-size: 11px; color: var(--b-cream-dark);">تم الرفع</span>
+        </div>
+        <div style="padding: 10px; border-radius: 8px; background: rgba(139,38,53,0.1); border: 1px solid rgba(139,38,53,0.2); display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 12px; color: #E57373;">⏳ فحص بقايا مبيدات</span>
+          <button class="btn" style="padding: 4px 10px; font-size: 11px;">رفع</button>
+        </div>
+        <div style="padding: 10px; border-radius: 8px; background: rgba(139,38,53,0.1); border: 1px solid rgba(139,38,53,0.2); display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 12px; color: #E57373;">⏳ فحص مياه الري</span>
+          <button class="btn" style="padding: 4px 10px; font-size: 11px;">رفع</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width: 100%; padding: 14px;">𒂗 إرسال طلب الاعتماد</button>
+  </div>
+</div>
+
+<div class="panel" id="panel5">
+  <div class="section-title"><div class="babylon-icon">𒈦</div>لوحة مراقبة الجودة</div>
+  <div class="metric-grid">
+    <div class="metric"><div class="metric-value" style="color: #81C784;">98.2%</div><div class="metric-label">معدل القبول<br>هذا الشهر</div></div>
+    <div class="metric"><div class="metric-value" style="color: var(--b-gold);">4.7⭐</div><div class="metric-label">متوسط تقييم<br>العملاء</div></div>
+    <div class="metric"><div class="metric-value" style="color: var(--b-blue-light);">0</div><div class="metric-label">حالات تسمم<br>غذائي</div></div>
+    <div class="metric"><div class="metric-value" style="color: #E57373;">3</div><div class="metric-label">شحنات مرفوضة<br>هذا الشهر</div></div>
+  </div>
+  <div class="card">
+    <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 12px;">📈 مؤشرات الجودة الرئيسية (KPIs)</div>
+    <table class="data-table">
+      <tr><th>KPI</th><th>الهدف</th><th>الأداء الفعلي</th><th>الاتجاه</th></tr>
+      <tr><td>🥬 جودة المنتج (PPM)</td><td>&lt; 500 ppm</td><td style="color: #81C784;">320 ppm</td><td><span class="tag tag-green">↓ تحسن</span></td></tr>
+      <tr><td>🚚 OTIF (التسليم في الوقت)</td><td>&gt; 95%</td><td style="color: #81C784;">96.5%</td><td><span class="tag tag-green">↑ تحسن</span></td></tr>
+      <tr><td>🌡️ CCP-1 (درجة الحرارة)</td><td>100% مراقبة</td><td style="color: #81C784;">100%</td><td><span class="tag tag-green">✓ ثابت</span></td></tr>
+      <tr><td>📞 شكاوى العملاء</td><td>&lt; 2%</td><td style="color: var(--b-gold);">1.8%</td><td><span class="tag tag-gold">→ ثابت</span></td></tr>
+      <tr><td>🧪 فحوصات المختبر</td><td>100% شهرياً</td><td style="color: #81C784;">100%</td><td><span class="tag tag-green">✓ ثابت</span></td></tr>
+      <tr><td>📋 شهادات الموردين</td><td>100% سارية</td><td style="color: #E57373;">87%</td><td><span class="tag tag-red">⚠️ 3 منتهية</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div style="font-size: 15px; font-weight: 600; color: var(--b-gold-light); margin-bottom: 10px;">⚠️ تنبيهات الجودة الفورية</div>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div class="alert-box alert-red">
+        <div>
+          <div style="font-weight: 600; color: #E57373;">🔴 شهادة صحية منتهية</div>
+          <div style="font-size: 12px; color: var(--b-cream-dark);">مورد: مزارع كوت · تاريخ الانتهاء: 20/8/2026</div>
+        </div>
+        <button class="btn" style="border-color: rgba(139,38,53,0.4); color: #E57373;">إيقاف توريد</button>
+      </div>
+      <div class="alert-box alert-gold">
+        <div>
+          <div style="font-weight: 600; color: var(--b-gold);">🟡 Scorecard منخفض</div>
+          <div style="font-size: 12px; color: var(--b-cream-dark);">مورد: تاجر جاميلة · Score: 52 · إنذار #2</div>
+        </div>
+        <button class="btn">مراجعة</button>
+      </div>
+      <div class="alert-box alert-blue">
+        <div>
+          <div style="font-weight: 600; color: var(--b-blue-light);">🔵 فحص دوري مستحق</div>
+          <div style="font-size: 12px; color: var(--b-cream-dark);">مورد: مزارع الأنبار · فحص مبيدات: مستحق 25/8</div>
+        </div>
+        <button class="btn">إرسال تذكير</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showPanel(n) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', i === n));
+}
+</script>
+
+</body>
+</html>
